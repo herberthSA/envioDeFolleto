@@ -1,15 +1,22 @@
 import express from "express";
 import { Resend } from "resend";
-import { routerBrochures } from "./routes/brochureRouter.js";
+import  routerBrochures  from "./routes/brochureRouter.js";
 import multer from "multer";
 import path from "path";
 import { __dirname, emailTransport } from "./utils.js";
 import cors from 'cors';
 import dotenv from "dotenv";
+import usersRouter from "./routes/users.router.js";
+import morgan from "morgan";
+
 dotenv.config()
+
+
+
 const app = express();
 const upload = multer({dest:'public/brochures/'});
 const resend = new Resend("re_TmytCyuL_CPQqVCFc4nqtj3Hugi1ZHNi4");
+
 const hmtlBody = `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -115,10 +122,14 @@ const hmtlBody = `<!DOCTYPE html>
   </div>
 </body>
 </html>`
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname ,'../public')));
+
+app.use('/user', usersRouter)
 app.use('/picture',upload.single('image'),routerBrochures);
 app.get('/prueba', async (req, res) => {
   const fileUrl = path.join(__dirname, '../public/brochures/boardingPassQ865GS_MEXMTY_MCFBRFQ-.jpg');
@@ -144,8 +155,6 @@ app.get('/prueba', async (req, res) => {
 
   res.status(200).json({ data });
 });
-
-
 
 app.listen(3000, () => {
   console.log("Listening on http://localhost:3000");

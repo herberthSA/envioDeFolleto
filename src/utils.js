@@ -15,7 +15,7 @@ export const emailTransport = nodemailer.createTransport({
     },
   });
 
-export const hmtlBody =(subject)=>{
+export const hmtlBody =(subject, firstNAme,lastName)=>{
   const plantilla = `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -102,7 +102,7 @@ export const hmtlBody =(subject)=>{
     </header>
     <div class="email-body">
       <h1>${subject}</h1>
-      <p>Estimado/a [Nombre],</p>
+      <p>Estimado/a ${firstNAme +' '+ lastName},</p>
       <p>Le informamos que tomes los siguientes consejos: </p>
       
       <!-- Sección de Imagen -->
@@ -112,7 +112,7 @@ export const hmtlBody =(subject)=>{
 
       <p>Si tiene alguna pregunta, no dude en ponerse en contacto con nosotros.</p>
       <p>Gracias por su atención.</p>
-      <p>Atentamente,<br>[Su Nombre]<br>[Su Cargo]<br>[Nombre de la Empresa]</p>
+      <p>Atentamente,<br>Departamento Gerencial<br>Vanity</p>
     </div>
     <div class="email-footer">
       <p>© 2024 Nombre de la Empresa. Todos los derechos reservados.</p>
